@@ -1,7 +1,9 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: 'export', // 🔹 Hace que Next genere un sitio estático
+  images: {
+    unoptimized: true, // 🔹 Evita errores de imágenes al exportar
+  },
 };
 
 export default nextConfig;
