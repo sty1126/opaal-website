@@ -1,4 +1,3 @@
-"use client"
 
 import { use } from "react"
 import { Header } from "@/components/header"
@@ -7,6 +6,13 @@ import { rooms } from "../../../lib/roms-data"
 import { Bath, ChefHat, Armchair, Users, Wifi, Briefcase, Tv, Shield } from "lucide-react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
+
+// 🔹 ESTA FUNCIÓN es necesaria para rutas dinámicas con "output: export"
+export async function generateStaticParams() {
+  return rooms.map((room) => ({
+    id: room.id.toString(),
+  }))
+}
 
 export default function RoomDetailPage({
   params,
@@ -66,7 +72,9 @@ export default function RoomDetailPage({
             {/* Room Details */}
             <div className="lg:col-span-2 space-y-8">
               <div>
-                <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4 tracking-wide">{room.name}</h1>
+                <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4 tracking-wide">
+                  {room.name}
+                </h1>
                 <div className="text-lg text-muted-foreground leading-relaxed whitespace-pre-line">
                   {room.fullDescription}
                 </div>
@@ -75,7 +83,9 @@ export default function RoomDetailPage({
               {/* Amenities */}
               <div className="border border-accent/20 rounded-lg bg-card">
                 <div className="p-8">
-                  <h2 className="text-2xl font-semibold text-foreground mb-6">Lo que este lugar ofrece</h2>
+                  <h2 className="text-2xl font-semibold text-foreground mb-6">
+                    Lo que este lugar ofrece
+                  </h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     {Object.entries(room.amenities).map(([key, value]) => {
                       if (!value) return null
@@ -86,7 +96,9 @@ export default function RoomDetailPage({
                           <div className="bg-accent/10 p-3 rounded-lg">
                             <Icon className="h-6 w-6 text-accent" />
                           </div>
-                          <span className="text-foreground font-medium">{amenity.label}</span>
+                          <span className="text-foreground font-medium">
+                            {amenity.label}
+                          </span>
                         </div>
                       )
                     })}
@@ -97,9 +109,16 @@ export default function RoomDetailPage({
               {/* Video Section */}
               <div className="border border-accent/20 rounded-lg bg-card">
                 <div className="p-8">
-                  <h2 className="text-2xl font-semibold text-foreground mb-6">Video Tour</h2>
+                  <h2 className="text-2xl font-semibold text-foreground mb-6">
+                    Video Tour
+                  </h2>
                   <div className="relative aspect-video rounded-lg overflow-hidden bg-muted border-2 border-accent/20">
-                    <video src={room.videoUrl} controls className="w-full h-full object-cover" poster={room.images[0]}>
+                    <video
+                      src={room.videoUrl}
+                      controls
+                      className="w-full h-full object-cover"
+                      poster={room.images[0]}
+                    >
                       Tu navegador no soporta el elemento de video.
                     </video>
                   </div>
@@ -111,7 +130,9 @@ export default function RoomDetailPage({
             <div className="lg:col-span-1">
               <div className="border border-accent/20 rounded-lg bg-card sticky top-32">
                 <div className="p-8">
-                  <h2 className="text-2xl font-semibold text-foreground mb-6">Reserva Ahora</h2>
+                  <h2 className="text-2xl font-semibold text-foreground mb-6">
+                    Reserva Ahora
+                  </h2>
                   {room.disponible ? (
                     <>
                       <p className="text-muted-foreground mb-6 leading-relaxed">
@@ -136,7 +157,6 @@ export default function RoomDetailPage({
                           disabled
                           className="inline-flex items-center justify-center w-full h-12 px-6 rounded-md bg-[#FF690F] text-white font-medium opacity-60 cursor-not-allowed"
                         >
-                          {/* Logo Kayak (SVG embebido) */}
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 24" className="h-5 mr-2 fill-white">
                             <rect width="100" height="24" rx="3" fill="#FF690F" />
                             <text x="50%" y="65%" textAnchor="middle" fontSize="12" fontFamily="Arial, sans-serif" fontWeight="bold" fill="white">
@@ -151,7 +171,6 @@ export default function RoomDetailPage({
                           disabled
                           className="inline-flex items-center justify-center w-full h-12 px-6 rounded-md bg-[#003580] text-white font-medium opacity-60 cursor-not-allowed"
                         >
-                          {/* Logo Booking.com (SVG embebido simplificado) */}
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 24" className="h-5 mr-2 fill-white">
                             <rect width="120" height="24" rx="3" fill="#003580" />
                             <text x="50%" y="65%" textAnchor="middle" fontSize="11" fontFamily="Arial, sans-serif" fontWeight="bold" fill="white">
@@ -164,12 +183,18 @@ export default function RoomDetailPage({
                     </>
                   ) : (
                     <div className="text-center py-4">
-                      <p className="text-lg font-semibold text-muted-foreground mb-2">No Disponible</p>
-                      <p className="text-sm text-muted-foreground">Esta habitación no está disponible actualmente</p>
+                      <p className="text-lg font-semibold text-muted-foreground mb-2">
+                        No Disponible
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        Esta habitación no está disponible actualmente
+                      </p>
                     </div>
                   )}
                   <div className="mt-8 pt-8 border-t border-accent/20">
-                    <p className="text-sm text-muted-foreground mb-4">¿Tienes preguntas? Contáctanos directamente</p>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      ¿Tienes preguntas? Contáctanos directamente
+                    </p>
                     <Link
                       href="/contacto"
                       className="inline-flex items-center justify-center w-full h-10 px-4 rounded-md border border-accent text-accent hover:bg-accent hover:text-accent-foreground bg-transparent font-medium transition-colors"
